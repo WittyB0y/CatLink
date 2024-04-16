@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Link.apps.LinkConfig',
     'Collection.apps.CollectionConfig',
+    'Auth.apps.AuthConfig',
 ]
 
 MIDDLEWARE = [
