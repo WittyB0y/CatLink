@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Link.apps.LinkConfig',
 ]
 
 MIDDLEWARE = [
@@ -33,7 +34,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'LinkCat.urls'
+ROOT_URLCONF = 'CatApp.urls'
 
 TEMPLATES = [
     {
@@ -51,7 +52,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'LinkCat.wsgi.application'
+WSGI_APPLICATION = 'CatApp.wsgi.application'
 
 DATABASES = {
     'default': {
