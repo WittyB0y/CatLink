@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from Collection.models import Collection
+
 
 class Link(models.Model):
     """
@@ -14,6 +16,7 @@ class Link(models.Model):
         link_type (IntegerField): Type of the link. Chosen from the predefined list LEVEL_OF_LINK.
         created_at (DateTimeField): Date and time the link was created.
         updated_at (DateTimeField): Date and time the link was last updated.
+        collections (ManyToManyField): Collections to which the link belongs.
     """
 
     LEVEL_OF_LINK = [
@@ -32,3 +35,7 @@ class Link(models.Model):
     link_type = models.IntegerField(choices=LEVEL_OF_LINK, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    collections = models.ManyToManyField(Collection, related_name='links')
+
+    class Meta:
+        unique_together = ('user', 'url')  # check links are unique per user
