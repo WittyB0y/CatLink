@@ -124,6 +124,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CatApp.wsgi.application'
 
+# DB
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -133,6 +134,13 @@ DATABASES = {
         "PASSWORD": os.environ.get("DB_PASSWORD"),
     }
 }
+
+# SETTINGS FOR EMAIL SERVER
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_USER = os.getenv('EMAIL_USER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = bool(os.getenv('EMAIL_USE_TLS'))
 
 AUTH_PASSWORD_VALIDATORS = [
     {

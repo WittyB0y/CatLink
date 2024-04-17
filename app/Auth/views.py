@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from Tasks.tasks import sent_notification, sent_greetings
 from .serializers import UserSerializer, ChangePasswordSerializer
 
 
@@ -20,6 +22,7 @@ class UserRegistrationView(generics.CreateAPIView):
 
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
+            sent_greetings.delay(user.email)
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
@@ -39,6 +42,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         if serializer.is_valid():
             self.request.user.set_password(serializer.validated_data['new_password'])
             self.request.user.save()
+            sent_notification.delay(self.request.user.email)
             return Response(
                 {'message': 'Password updated successfully.'},
                 status=status.HTTP_200_OK
