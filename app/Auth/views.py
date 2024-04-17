@@ -6,16 +6,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .reset_token import TokenGenerator
+from .utils import generate_random_password
 from .serializers import (
     UserSerializer,
     ChangePasswordSerializer,
-    PasswordResetRequestSerializer
+    PasswordResetRequestSerializer,
 )
 from Tasks.tasks import (
     sent_notification_change_password,
     sent_greetings,
-    sent_link_for_reset_password
+    sent_new_password,
 )
 
 
@@ -63,7 +63,7 @@ class ChangePasswordView(generics.UpdateAPIView):
             )
 
 
-class PasswordResetRequestViewSet(generics.CreateAPIView):
+class PasswordResetRequest(generics.CreateAPIView):
     serializer_class = PasswordResetRequestSerializer
 
     def post(self, request, *args, **kwargs):
@@ -71,10 +71,11 @@ class PasswordResetRequestViewSet(generics.CreateAPIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             user = get_object_or_404(User, email=email)
-            token = TokenGenerator().make_token(user)
-            sent_link_for_reset_password.delay(user.email, token)
+            new_password = generate_random_password()
+            user.set_password(new_password)
+            sent_new_password.delay(user.email, new_password)
             return Response(
-                {'message': 'Code were sent, check email.'},
+                {'message': 'New password was sent, check email.'},
                 status=status.HTTP_200_OK
             )
         else:

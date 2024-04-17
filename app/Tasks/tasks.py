@@ -17,7 +17,7 @@ def sent_greetings(user_email):
 
 
 @celery.task
-def sent_link_for_reset_password(user_email, link):
-    subject = "🐱 LinkCat: reset password!"
-    message = f"Follow it to reset password:\n{link}"
+def sent_new_password(user_email, new_password):
+    subject = "🐱 LinkCat: new password!"
+    message = f"Hi!\nYour new password is {new_password}"
     send_email(user_email, subject, message)
