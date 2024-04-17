@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -27,7 +28,7 @@ class UserRegistrationView(generics.CreateAPIView):
 
 
 class ChangePasswordView(generics.UpdateAPIView):
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
     serializer_class = ChangePasswordSerializer
 
     def get_object(self):

@@ -10,6 +10,9 @@ python-dotenv = "*"
 djangorestframework = "*"
 pre-commit = "*"
 djangorestframework-simplejwt = "*"
+celery = "*"
+psycopg2 = "*"
+redis = "*"
 
 [dev-packages]
 

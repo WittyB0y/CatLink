@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  web-app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    environment:
+      - DB_HOST=database
+      - DB_NAME=linkcat
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16-alpine3.18
+    environment:
+      - POSTGRES_DB=linkcat
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:7.0-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A CatApp worker --loglevel=info
+    volumes:
+      - ./app:/app
+
+    environment:
+      - DB_HOST=database
+      - DB_NAME=linkcat
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    links:
+      - redis
+    depends_on:
+      - redis
