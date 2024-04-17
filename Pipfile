@@ -9,6 +9,7 @@ django = "*"
 python-dotenv = "*"
 djangorestframework = "*"
 pre-commit = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

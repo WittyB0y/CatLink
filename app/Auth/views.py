@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -11,6 +13,10 @@ class UserRegistrationView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            if User.objects.filter(email=email).exists():
+                raise ValidationError({'email': 'This email is already in use.'})
+
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
             return Response({
@@ -18,3 +24,11 @@ class UserRegistrationView(generics.CreateAPIView):
                 'access': str(refresh.access_token),
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    # permission_classes = [IsAuthenticated, ]
+    serializer_class = ChangePasswordSerializer
+
+    def get_object(self):
+        return self.request.user
