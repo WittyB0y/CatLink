@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .utils import generate_random_password
+from utils.generate_random_password import generate_random_password
 from .serializers import (
     UserSerializer,
     ChangePasswordSerializer,

@@ -1,7 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from Tasks.background_parse_task import parse_site
 from .models import Link
 from .serializers import LinkSerializer, CreateLinkSerializer, UpdateLinkSerializer

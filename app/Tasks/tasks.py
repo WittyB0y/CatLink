@@ -1,5 +1,5 @@
 from CatApp.celery import celery
-from CatApp.post_server import send_email
+from utils.post_server import send_email
 
 
 @celery.task
