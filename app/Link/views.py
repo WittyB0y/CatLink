@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from Tasks.background_parse_task import parse_site
 from .models import Link
 from .serializers import LinkSerializer, CreateLinkSerializer, UpdateLinkSerializer
 
@@ -16,7 +17,6 @@ class UserLinkViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         method = self.action
-        print("method", method)
 
         match method:
             case 'create':
@@ -33,6 +33,12 @@ class UserLinkViewSet(viewsets.ModelViewSet):
         set user when create Link object
         """
         serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        url = request.data.get('url')
+        link_type = request.data.get('link_type')
+        parse_site.delay(request.user.id, link_type, url)
+        return Response("Task was added.", status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'celery',
+    'lxml',
+    'requests',
     'rest_framework_simplejwt',
     'Link.apps.LinkConfig',
     'Collection.apps.CollectionConfig',

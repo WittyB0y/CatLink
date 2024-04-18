@@ -13,6 +13,8 @@ djangorestframework-simplejwt = "*"
 celery = "*"
 psycopg2 = "*"
 redis = "*"
+requests = "*"
+lxml = "*"
 
 [dev-packages]
 

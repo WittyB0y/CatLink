@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from Collection.models import Collection
 
 
@@ -31,7 +30,7 @@ class Link(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     url = models.URLField(null=False)
-    image = models.URLField()
+    image = models.URLField(null=True)
     link_type = models.IntegerField(choices=LEVEL_OF_LINK, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
