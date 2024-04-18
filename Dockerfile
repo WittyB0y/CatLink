@@ -1,7 +1,7 @@
 FROM python:3.12-alpine3.18
 
 COPY Pipfile ./
-COPY app /app
+COPY . .
 WORKDIR /app
 EXPOSE 8000
 
