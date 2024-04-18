@@ -15,6 +15,7 @@ psycopg2 = "*"
 redis = "*"
 requests = "*"
 lxml = "*"
+flower = "*"
 
 [dev-packages]
 
