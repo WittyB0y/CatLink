@@ -29,3 +29,9 @@ class UpdateLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
         fields = ['url', 'link_type']
+
+
+class IdLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = ["id", ]

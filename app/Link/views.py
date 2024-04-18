@@ -1,3 +1,5 @@
+from types import NoneType
+
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -36,8 +38,10 @@ class UserLinkViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         url = request.data.get('url')
         link_type = request.data.get('link_type')
-        parse_site.delay(request.user.id, link_type, url)
-        return Response("Task was added.", status=status.HTTP_200_OK)
+        if not isinstance(url, NoneType):
+            parse_site.delay(request.user.id, link_type, url)
+            return Response("Task was added.", status=status.HTTP_200_OK)
+        return Response("Url is required field.", status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
