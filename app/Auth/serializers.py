@@ -1,3 +1,4 @@
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -16,6 +17,14 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+    def validate_password(self, value):
+        """
+        Func for validate password.
+        Password have to contain at least 8 chars and 1 letter.
+        """
+        validate_password(value)
+        return value
 
 
 class ChangePasswordSerializer(serializers.Serializer):
