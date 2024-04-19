@@ -42,6 +42,7 @@ class UserRegistrationView(generics.CreateAPIView):
 class ChangePasswordView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = ChangePasswordSerializer
+    http_method_names = ["put", ]
 
     def get_object(self):
         return self.request.user

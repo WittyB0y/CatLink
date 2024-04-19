@@ -28,7 +28,7 @@ class Link(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(null=True)
     url = models.URLField(null=False)
     image = models.URLField(null=True)
     link_type = models.IntegerField(choices=LEVEL_OF_LINK, default=1)

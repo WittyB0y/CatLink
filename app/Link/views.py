@@ -3,7 +3,7 @@ from types import NoneType
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from Tasks.background_parse_task import parse_site
+from Tasks.background_parse_task import parse_site, parse_site_update
 from .models import Link
 from .serializers import LinkSerializer, CreateLinkSerializer, UpdateLinkSerializer
 
@@ -11,6 +11,7 @@ from .serializers import LinkSerializer, CreateLinkSerializer, UpdateLinkSeriali
 class UserLinkViewSet(viewsets.ModelViewSet):
     queryset = Link.objects.all()
     permission_classes = [IsAuthenticated, ]
+    http_method_names = ["get", "post", "put", "delete"]
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -36,6 +37,18 @@ class UserLinkViewSet(viewsets.ModelViewSet):
         set user when create Link object
         """
         serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        link_id = instance.id
+        url = serializer.validated_data.get('url')
+        link_type = serializer.validated_data.get('link_type')
+        if url is not None:
+            parse_site_update.delay(link_id, link_type, url)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         url = request.data.get('url')
