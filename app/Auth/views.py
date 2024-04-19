@@ -83,6 +83,7 @@ class PasswordResetRequest(generics.CreateAPIView):
             user = get_object_or_404(User, email=email)
             new_password = generate_random_password()
             user.set_password(new_password)
+            user.save()
             sent_new_password.delay(user.email, new_password)
             return Response(
                 {'message': 'New password was sent, check email.'},
