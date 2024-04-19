@@ -30,7 +30,7 @@ class CollectionViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
 
-        link_ids = request.data.get('link_ids')
+        link_ids = request.data.get('links')
         collection = serializer.instance
 
         # add each link to db
