@@ -5,10 +5,9 @@ from CatApp.celery import celery
 
 
 @celery.task
-def parse_site(user_id, link_type, url):
+def parse_site(user_id, url):
     user = User.objects.get(id=user_id)
     data = extract_data_from_url(url)
-    link_type = 1 if link_type is None else link_type
     if isinstance(data, dict):
         Link.objects.create(
             user=user,
@@ -16,19 +15,18 @@ def parse_site(user_id, link_type, url):
             description=data.get('description'),
             image=data.get('image'),
             url=url,
-            link_type=link_type
+            link_type=data.get('link_type')
         )
 
 
 @celery.task
-def parse_site_update(link_id, link_type, url):
+def parse_site_update(link_id, url):
     data = extract_data_from_url(url)
-    link_type = 1 if link_type is None else link_type
     if isinstance(data, dict):
         Link.objects.filter(id=link_id).update(
             title=data.get('title'),
             description=data.get('description'),
             image=data.get('image'),
             url=url,
-            link_type=link_type
+            link_type=data.get('link_type')
         )

@@ -42,19 +42,16 @@ class UserLinkViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
         link_id = instance.id
         url = serializer.validated_data.get('url')
-        link_type = serializer.validated_data.get('link_type')
         if url is not None:
-            parse_site_update.delay(link_id, link_type, url)
-        return Response(serializer.data)
+            parse_site_update.delay(link_id, url)
+        return Response("Data will be updated.", status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         url = request.data.get('url')
-        link_type = request.data.get('link_type')
         if not isinstance(url, NoneType):
-            parse_site.delay(request.user.id, link_type, url)
+            parse_site.delay(request.user.id, url)
             return Response("Task was added.", status=status.HTTP_200_OK)
         return Response("Url is required field.", status=status.HTTP_400_BAD_REQUEST)
 

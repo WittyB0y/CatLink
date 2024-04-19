@@ -13,7 +13,7 @@ class CreateLinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Link
-        fields = ['id', 'url', 'link_type']
+        fields = ['id', 'url']
 
     def validate(self, attrs):
         if "url" not in attrs:
@@ -28,7 +28,7 @@ class CreateLinkSerializer(serializers.ModelSerializer):
 class UpdateLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
-        fields = ['url', 'link_type']
+        fields = ['url', ]
 
 
 class IdLinkSerializer(serializers.ModelSerializer):
