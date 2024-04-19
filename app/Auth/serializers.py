@@ -47,9 +47,4 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class PasswordResetRequestSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-
-    def validate(self, data):
-        if 'email' not in data:
-            raise serializers.ValidationError("Email field is required.")
-        return data
+    email = serializers.EmailField(required=True)

@@ -19,11 +19,11 @@ class Link(models.Model):
     """
 
     LEVEL_OF_LINK = [
-        (1, "website"),
-        (2, "book"),
-        (3, "article"),
-        (4, "music"),
-        (5, "video"),
+        (1, 'website'),
+        (2, 'book'),
+        (3, 'article'),
+        (4, 'music'),
+        (5, 'video'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

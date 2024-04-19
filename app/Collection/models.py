@@ -7,6 +7,7 @@ class Collection(models.Model):
     Model for storing collections.
 
     Attributes:
+        user (ForeignKey): It links with User.
         name (CharField): The name of the collection.
         description (TextField, optional): Brief description of the collection.
         created_at (DateTimeField): Date and time the collection was created.

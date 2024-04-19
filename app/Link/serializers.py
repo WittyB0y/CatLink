@@ -16,12 +16,12 @@ class CreateLinkSerializer(serializers.ModelSerializer):
         fields = ['id', 'url']
 
     def validate(self, attrs):
-        if "url" not in attrs:
-            raise serializers.ValidationError("Error")
+        if 'url' not in attrs:
+            raise serializers.ValidationError('Error')
 
         user = self.context['request'].user
-        if Link.objects.filter(user=user, url=attrs["url"]).exists():
-            raise serializers.ValidationError("This URL has already been added by the user.")
+        if Link.objects.filter(user=user, url=attrs['url']).exists():
+            raise serializers.ValidationError('This URL has already been added by the user.')
         return attrs
 
 
@@ -34,4 +34,4 @@ class UpdateLinkSerializer(serializers.ModelSerializer):
 class IdLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
-        fields = ["id", ]
+        fields = ['id', ]

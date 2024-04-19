@@ -13,7 +13,7 @@ from .serializers import (
 class CollectionViewSet(viewsets.ModelViewSet):
     queryset = Collection.objects.all()
     permission_classes = [permissions.IsAuthenticated]
-    http_method_names = ["get", "post", "put", "delete"]
+    http_method_names = ['get', 'post', 'put', 'delete', ]
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -25,8 +25,6 @@ class CollectionViewSet(viewsets.ModelViewSet):
         method = self.action
 
         match method:
-            case 'list':
-                return CollectionSerializer
             case 'update':
                 return UpdateCollectionSerializer
             case 'create':

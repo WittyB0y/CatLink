@@ -1,5 +1,4 @@
 from types import NoneType
-
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,7 +10,7 @@ from .serializers import LinkSerializer, CreateLinkSerializer, UpdateLinkSeriali
 class UserLinkViewSet(viewsets.ModelViewSet):
     queryset = Link.objects.all()
     permission_classes = [IsAuthenticated, ]
-    http_method_names = ["get", "post", "put", "delete"]
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -46,16 +45,16 @@ class UserLinkViewSet(viewsets.ModelViewSet):
         url = serializer.validated_data.get('url')
         if url is not None:
             parse_site_update.delay(link_id, url)
-        return Response("Data will be updated.", status=status.HTTP_200_OK)
+        return Response('Data will be updated.', status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         url = request.data.get('url')
         if not isinstance(url, NoneType):
             parse_site.delay(request.user.id, url)
-            return Response("Task was added.", status=status.HTTP_200_OK)
-        return Response("Url is required field.", status=status.HTTP_400_BAD_REQUEST)
+            return Response('Task was added.', status=status.HTTP_200_OK)
+        return Response('Url is required field.', status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response("This link was deleted.", status=status.HTTP_204_NO_CONTENT)
+        return Response('This link was deleted.', status=status.HTTP_204_NO_CONTENT)

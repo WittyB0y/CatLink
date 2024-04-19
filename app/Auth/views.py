@@ -20,6 +20,10 @@ from Tasks.tasks import (
 
 
 class UserRegistrationView(generics.CreateAPIView):
+    """
+    View for user registration.
+    After registration, return access and refresh tokens.
+    """
     serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
@@ -65,6 +69,11 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 
 class PasswordResetRequest(generics.CreateAPIView):
+    """
+    View for reset password processing,
+    func gets email, than updating password
+    and sent new on email.
+    """
     serializer_class = PasswordResetRequestSerializer
 
     def post(self, request, *args, **kwargs):
