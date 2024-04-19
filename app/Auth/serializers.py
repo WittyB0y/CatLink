@@ -37,6 +37,14 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Current password is incorrect.")
         return value
 
+    def validate_new_password(self, value):
+        """
+        Func for validate new password.
+        Password have to contain at least 8 chars and 1 letter.
+        """
+        validate_password(value)
+        return value
+
 
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
