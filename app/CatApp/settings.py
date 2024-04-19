@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'celery',
     'lxml',
     'requests',
+    'drf_yasg',
     'rest_framework_simplejwt',
     'Link.apps.LinkConfig',
     'Collection.apps.CollectionConfig',
@@ -45,7 +46,7 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # "rest_framework.authentication.SessionAuthentication",
-        # "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.BasicAuthentication",  # allow it for swagger
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }

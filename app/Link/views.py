@@ -13,8 +13,10 @@ class UserLinkViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
-        user = self.request.user
-        return Link.objects.filter(user=user)
+        if self.request.user.is_authenticated:
+            return Link.objects.filter(user=self.request.user)
+        else:
+            return Link.objects.none()
 
     def get_serializer_class(self):
         method = self.action

@@ -11,7 +11,10 @@ class CollectionViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Collection.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return Collection.objects.filter(user=self.request.user)
+        else:
+            return Collection.objects.none()
 
     def get_serializer_class(self):
         method = self.action

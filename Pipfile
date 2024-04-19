@@ -16,6 +16,7 @@ redis = "*"
 requests = "*"
 lxml = "*"
 flower = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
