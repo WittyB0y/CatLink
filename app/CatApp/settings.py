@@ -160,6 +160,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SETTINGS FOR TEST DATA SET
+TEST_DATA_SET = int(os.getenv("TEST_DATA_SET"))
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = os.getenv('TIME_ZONE')
