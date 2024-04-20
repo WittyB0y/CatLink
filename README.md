@@ -11,7 +11,8 @@ ___
 6. `docker-compose run --rm web-app sh -c "python manage.py migrate"` - Do migrate.
 7. `docker-compose run --rm web-app sh -c "python manage.py fill_db_user"` - Fill up DB with test user data.
 8. `docker-compose run --rm web-app sh -c "python manage.py fill_db_collection"` - Fill up DB with test links and collections data.
-
+9. 
+#### ⚠️ if after fill up db with test data project is not up, reload containers!
 ### You launched the project! 🐱‍
 
 ---
